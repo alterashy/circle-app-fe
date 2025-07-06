@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { ProfilePage } from "@/pages/dashboard/ProfilePage";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/(dashboard)/profile/$username')({
+export const Route = createFileRoute("/(dashboard)/profile/$username")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/(dashboard)/profile/$username"!</div>
+  return (
+    <div>
+      <ProfilePage />
+    </div>
+  );
 }

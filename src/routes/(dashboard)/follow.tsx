@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { FollowPage } from "@/pages/dashboard/FollowPage";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/(dashboard)/follow')({
+export const Route = createFileRoute("/(dashboard)/follow")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/(dashboard)/follow"!</div>
+  return (
+    <div>
+      <FollowPage />
+    </div>
+  );
 }
