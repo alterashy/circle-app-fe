@@ -6,8 +6,9 @@ import { LogOut, Plus } from "lucide-react";
 
 export const LeftBar = () => {
   return (
-    <div className="h-full relative">
-      <div className="flex flex-col gap-4 justify-between">
+    <div className="h-full flex flex-col p-4">
+      {/* Logo */}
+      <div className="mb-6">
         <div className="hidden md:hidden lg:block">
           <Link to="/">
             <h1 className="text-3xl text-primary font-bold">Circle</h1>
@@ -19,7 +20,10 @@ export const LeftBar = () => {
             <h1 className="text-4xl text-primary text-center font-bold">C</h1>
           </Link>
         </div>
+      </div>
 
+      {/* Menu Items */}
+      <div className="flex flex-col gap-4 flex-1">
         {navigationItems.map((item) => (
           <NavigationMenu
             key={item.to}
@@ -30,19 +34,22 @@ export const LeftBar = () => {
         ))}
 
         <Button
-          variant={"default"}
+          variant="default"
           className="w-fit justify-center gap-2 text-secondary lg:w-full lg:justify-start"
         >
           <Plus />
-          <span className="md:hidden lg:block"> Create Post</span>
+          <span className="md:hidden lg:block">Create Post</span>
         </Button>
+      </div>
 
+      {/* Logout Button (bottom) */}
+      <div className="pt-4 mt-auto">
         <Button
-          variant={"destructive"}
-          className="w-fit justify-center gap-2 text-secondary absolute left-0 bottom-0 lg:w-full lg:justify-start"
+          variant="destructive"
+          className="w-fit justify-center gap-2 text-secondary lg:w-full lg:justify-start"
         >
           <LogOut />
-          <span className="md:hidden lg:block"> Logout</span>
+          <span className="md:hidden lg:block">Logout</span>
         </Button>
       </div>
     </div>
