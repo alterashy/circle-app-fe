@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "./ui/theme";
 import { Switch } from "./ui/switch";
 
-export function SwitchTheme() {
+export function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
