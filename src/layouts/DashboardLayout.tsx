@@ -47,7 +47,7 @@ export const DashboardLayout = () => {
           <LeftBar />
         </div>
 
-        <div className="pb-[56px] p-6 overflow-y-scroll">
+        <div className="pb-[56px] overflow-y-scroll">
           <Outlet />
         </div>
 
@@ -55,7 +55,7 @@ export const DashboardLayout = () => {
           <BottomBar />
         </div>
 
-        <div className="hidden min-h-screen border-l p-6 overflow-y-scroll lg:block">
+        <div className="hidden min-h-screen border-l overflow-y-scroll lg:block">
           <RightBar />
         </div>
       </div>
