@@ -12,7 +12,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <Toaster duration={2000} position="top-right" theme="system" />
+        <Toaster duration={2000} position="top-right" theme="light" />
       </QueryClientProvider>
     </ThemeProvider>
   );
