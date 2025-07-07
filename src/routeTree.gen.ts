@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as dashboardRouteRouteImport } from './routes/(dashboard)/route'
+import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as dashboardIndexRouteImport } from './routes/(dashboard)/index'
 import { Route as dashboardSearchRouteImport } from './routes/(dashboard)/search'
 import { Route as dashboardFollowRouteImport } from './routes/(dashboard)/follow'
@@ -20,10 +21,14 @@ import { Route as dashboardPostIndexRouteImport } from './routes/(dashboard)/pos
 import { Route as dashboardProfileUsernameRouteImport } from './routes/(dashboard)/profile/$username'
 import { Route as dashboardPostPostIdRouteImport } from './routes/(dashboard)/post/$postId'
 import { Route as authPasswordForgotRouteImport } from './routes/(auth)/password/forgot'
-import { Route as authPasswordResetTokenRouteImport } from './routes/(auth)/password/reset/$token'
+import { Route as authPasswordResetTokenIdRouteImport } from './routes/(auth)/password/reset/$tokenId'
 
 const dashboardRouteRoute = dashboardRouteRouteImport.update({
   id: '/(dashboard)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRouteRoute = authRouteRouteImport.update({
+  id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const dashboardIndexRoute = dashboardIndexRouteImport.update({
@@ -42,14 +47,14 @@ const dashboardFollowRoute = dashboardFollowRouteImport.update({
   getParentRoute: () => dashboardRouteRoute,
 } as any)
 const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/(auth)/register',
+  id: '/register',
   path: '/register',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authLoginRoute = authLoginRouteImport.update({
-  id: '/(auth)/login',
+  id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const dashboardProfileIndexRoute = dashboardProfileIndexRouteImport.update({
   id: '/profile/',
@@ -73,15 +78,16 @@ const dashboardPostPostIdRoute = dashboardPostPostIdRouteImport.update({
   getParentRoute: () => dashboardRouteRoute,
 } as any)
 const authPasswordForgotRoute = authPasswordForgotRouteImport.update({
-  id: '/(auth)/password/forgot',
+  id: '/password/forgot',
   path: '/password/forgot',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
-const authPasswordResetTokenRoute = authPasswordResetTokenRouteImport.update({
-  id: '/(auth)/password/reset/$token',
-  path: '/password/reset/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const authPasswordResetTokenIdRoute =
+  authPasswordResetTokenIdRouteImport.update({
+    id: '/password/reset/$tokenId',
+    path: '/password/reset/$tokenId',
+    getParentRoute: () => authRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof dashboardIndexRoute
@@ -94,23 +100,24 @@ export interface FileRoutesByFullPath {
   '/profile/$username': typeof dashboardProfileUsernameRoute
   '/post': typeof dashboardPostIndexRoute
   '/profile': typeof dashboardProfileIndexRoute
-  '/password/reset/$token': typeof authPasswordResetTokenRoute
+  '/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof dashboardIndexRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/follow': typeof dashboardFollowRoute
   '/search': typeof dashboardSearchRoute
-  '/': typeof dashboardIndexRoute
   '/password/forgot': typeof authPasswordForgotRoute
   '/post/$postId': typeof dashboardPostPostIdRoute
   '/profile/$username': typeof dashboardProfileUsernameRoute
   '/post': typeof dashboardPostIndexRoute
   '/profile': typeof dashboardProfileIndexRoute
-  '/password/reset/$token': typeof authPasswordResetTokenRoute
+  '/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(auth)': typeof authRouteRouteWithChildren
   '/(dashboard)': typeof dashboardRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
@@ -122,7 +129,7 @@ export interface FileRoutesById {
   '/(dashboard)/profile/$username': typeof dashboardProfileUsernameRoute
   '/(dashboard)/post/': typeof dashboardPostIndexRoute
   '/(dashboard)/profile/': typeof dashboardProfileIndexRoute
-  '/(auth)/password/reset/$token': typeof authPasswordResetTokenRoute
+  '/(auth)/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -137,22 +144,23 @@ export interface FileRouteTypes {
     | '/profile/$username'
     | '/post'
     | '/profile'
-    | '/password/reset/$token'
+    | '/password/reset/$tokenId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/login'
     | '/register'
     | '/follow'
     | '/search'
-    | '/'
     | '/password/forgot'
     | '/post/$postId'
     | '/profile/$username'
     | '/post'
     | '/profile'
-    | '/password/reset/$token'
+    | '/password/reset/$tokenId'
   id:
     | '__root__'
+    | '/(auth)'
     | '/(dashboard)'
     | '/(auth)/login'
     | '/(auth)/register'
@@ -164,15 +172,12 @@ export interface FileRouteTypes {
     | '/(dashboard)/profile/$username'
     | '/(dashboard)/post/'
     | '/(dashboard)/profile/'
-    | '/(auth)/password/reset/$token'
+    | '/(auth)/password/reset/$tokenId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  authRouteRoute: typeof authRouteRouteWithChildren
   dashboardRouteRoute: typeof dashboardRouteRouteWithChildren
-  authLoginRoute: typeof authLoginRoute
-  authRegisterRoute: typeof authRegisterRoute
-  authPasswordForgotRoute: typeof authPasswordForgotRoute
-  authPasswordResetTokenRoute: typeof authPasswordResetTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -182,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof dashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)': {
+      id: '/(auth)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(dashboard)/': {
@@ -210,14 +222,14 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof authRegisterRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(dashboard)/profile/': {
       id: '/(dashboard)/profile/'
@@ -252,17 +264,35 @@ declare module '@tanstack/react-router' {
       path: '/password/forgot'
       fullPath: '/password/forgot'
       preLoaderRoute: typeof authPasswordForgotRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
-    '/(auth)/password/reset/$token': {
-      id: '/(auth)/password/reset/$token'
-      path: '/password/reset/$token'
-      fullPath: '/password/reset/$token'
-      preLoaderRoute: typeof authPasswordResetTokenRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(auth)/password/reset/$tokenId': {
+      id: '/(auth)/password/reset/$tokenId'
+      path: '/password/reset/$tokenId'
+      fullPath: '/password/reset/$tokenId'
+      preLoaderRoute: typeof authPasswordResetTokenIdRouteImport
+      parentRoute: typeof authRouteRoute
     }
   }
 }
+
+interface authRouteRouteChildren {
+  authLoginRoute: typeof authLoginRoute
+  authRegisterRoute: typeof authRegisterRoute
+  authPasswordForgotRoute: typeof authPasswordForgotRoute
+  authPasswordResetTokenIdRoute: typeof authPasswordResetTokenIdRoute
+}
+
+const authRouteRouteChildren: authRouteRouteChildren = {
+  authLoginRoute: authLoginRoute,
+  authRegisterRoute: authRegisterRoute,
+  authPasswordForgotRoute: authPasswordForgotRoute,
+  authPasswordResetTokenIdRoute: authPasswordResetTokenIdRoute,
+}
+
+const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
+  authRouteRouteChildren,
+)
 
 interface dashboardRouteRouteChildren {
   dashboardFollowRoute: typeof dashboardFollowRoute
@@ -289,11 +319,8 @@ const dashboardRouteRouteWithChildren = dashboardRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  authRouteRoute: authRouteRouteWithChildren,
   dashboardRouteRoute: dashboardRouteRouteWithChildren,
-  authLoginRoute: authLoginRoute,
-  authRegisterRoute: authRegisterRoute,
-  authPasswordForgotRoute: authPasswordForgotRoute,
-  authPasswordResetTokenRoute: authPasswordResetTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
