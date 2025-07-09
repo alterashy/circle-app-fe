@@ -9,4 +9,6 @@ export interface ReplyEntity {
   createdAt: string;
   updatedAt: string;
   isEdited: boolean;
+  likesCount: number;
+  isLiked: boolean;
 }

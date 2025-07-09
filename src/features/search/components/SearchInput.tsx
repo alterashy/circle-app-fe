@@ -8,6 +8,7 @@ import { UserSearch } from "lucide-react";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { SearchUserCard } from "./SearchUserCard";
+import { SpinnerLoading } from "@/utils/spinnerLoading";
 
 export const SearchInput = () => {
   const [searchText, setSearchText] = useState("");
@@ -38,7 +39,7 @@ export const SearchInput = () => {
 
       <div className="mt-4">
         {isFetching ? (
-          <Spinner />
+          <SpinnerLoading />
         ) : users?.length === 0 && searchText.trim() !== "" ? (
           <div className="flex flex-col gap-2 text-center justify-center">
             <p className="text-xs text-secondary-foreground font-semibold">

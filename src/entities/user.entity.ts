@@ -8,4 +8,7 @@ export interface UserEntity {
   profile?: ProfileEntity;
   createdAt: string;
   updatedAt: string;
+  isFollow: boolean;
+  followersCount: number;
+  followingsCount: number;
 }
