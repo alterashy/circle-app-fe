@@ -2,9 +2,8 @@ import { api } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import type { Follow } from "../schemas/follow.type";
 import type { FollowResponseDTO } from "../schemas/follow.dto";
-import { da } from "date-fns/locale";
+import type { Follow } from "../schemas/follow.type";
 
 export const useFollow = () => {
   const currentUser = useAuthStore((state) => state.user);

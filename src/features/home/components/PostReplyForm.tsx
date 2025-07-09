@@ -17,13 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { ReplyResponseDTO } from "../schemas/reply.dto";
 
-export const PostReplyForm = ({
-  postId,
-  username,
-}: {
-  postId: string;
-  username: string;
-}) => {
+export const PostReplyForm = ({ postId }: { postId: string }) => {
   const {
     user: {
       profile: { fullName, avatarUrl },
@@ -65,7 +59,7 @@ export const PostReplyForm = ({
       await queryClient.invalidateQueries({ queryKey: [`threads/${postId}`] });
       await queryClient.invalidateQueries({ queryKey: ["threads-user"] });
       await queryClient.invalidateQueries({
-        queryKey: ["posts-user", username],
+        queryKey: ["posts-user"],
       });
       await queryClient.invalidateQueries({ queryKey: ["post-detail"] });
       toast.success(data.message);

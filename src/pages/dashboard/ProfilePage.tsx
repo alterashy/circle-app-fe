@@ -237,10 +237,7 @@ export const ProfilePage = () => {
                         </div>
 
                         <div className="p-4 border-t">
-                          <PostReplyForm
-                            postId={mediaPostDetail.id}
-                            username={username}
-                          />
+                          <PostReplyForm postId={mediaPostDetail.id} />
                         </div>
                       </div>
                     </div>

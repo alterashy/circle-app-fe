@@ -1,14 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Spinner } from "@/components/ui/spinner";
 import type { UserEntity } from "@/entities/user.entity";
 import { api } from "@/lib/api";
+import { SpinnerLoading } from "@/utils/spinnerLoading";
 import { useQuery } from "@tanstack/react-query";
 import { UserSearch } from "lucide-react";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { SearchUserCard } from "./SearchUserCard";
-import { SpinnerLoading } from "@/utils/spinnerLoading";
 
 export const SearchInput = () => {
   const [searchText, setSearchText] = useState("");

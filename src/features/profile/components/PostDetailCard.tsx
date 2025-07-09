@@ -4,7 +4,7 @@ import type { Post } from "@/dtos/post.dto";
 import { usePostLike } from "@/features/home/hooks/usePostLike";
 import { formatDate } from "@/utils/formatDate";
 import { useNavigate } from "@tanstack/react-router";
-import { CalendarClock, Heart, MessageCircleMore } from "lucide-react";
+import { CalendarClock, Heart } from "lucide-react";
 
 export const PostDetailCardSimple = (post: Post) => {
   const navigate = useNavigate();
