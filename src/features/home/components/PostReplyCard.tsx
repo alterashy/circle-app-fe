@@ -32,13 +32,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { isAxiosError } from "axios";
-import { Edit3, Ellipsis, Trash2 } from "lucide-react";
+import { Edit3, Ellipsis, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { ReplyResponseDTO } from "../schemas/reply.dto";
+import { useReplyLike } from "../hooks/useReplyLike";
 
-export const PostRelpyCard = (reply: ReplyEntity) => {
+export const PostReplyCard = (reply: ReplyEntity) => {
   const currentUser = useAuthStore((state) => state.user);
   const isOwner = reply.user?.id === currentUser?.id;
   const queryClient = useQueryClient();
@@ -62,7 +63,7 @@ export const PostRelpyCard = (reply: ReplyEntity) => {
       const formData = new FormData();
       formData.append("content", data.content);
 
-      const response = await api.put<ReplyResponseDTO>(
+      const response = await api.patch<ReplyResponseDTO>(
         `/replies/${reply.id}`,
         formData
       );
@@ -81,7 +82,7 @@ export const PostRelpyCard = (reply: ReplyEntity) => {
         queryKey: ["threads"],
       });
       reset();
-      toast.success("Post updated successfully!");
+      toast.success("Reply updated");
     },
   });
 
@@ -96,9 +97,9 @@ export const PostRelpyCard = (reply: ReplyEntity) => {
     try {
       await api.delete(`/replies/${reply.id}`);
       await queryClient.invalidateQueries({
-        queryKey: [`threads/${reply.id}`],
+        queryKey: [`replies/${reply.id}`],
       });
-      toast.success("Post deleted successfully!");
+      toast.success("Reply deleted");
     } catch (error) {
       if (isAxiosError(error)) {
         return toast.error(error.response?.data.message);
@@ -106,6 +107,13 @@ export const PostRelpyCard = (reply: ReplyEntity) => {
       toast.error("Something went wrong!");
     }
   };
+
+  const {
+    handleReplyLike,
+    handleReplyUnlike,
+    isPendingReplyLike,
+    isPendingReplyUnlike,
+  } = useReplyLike();
 
   return (
     <div>
@@ -247,6 +255,24 @@ export const PostRelpyCard = (reply: ReplyEntity) => {
                     {reply.content}
                   </p>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-fit text-xs"
+                  disabled={isPendingReplyLike || isPendingReplyUnlike}
+                  onClick={() =>
+                    reply.isLiked
+                      ? handleReplyUnlike({ replyId: reply.id })
+                      : handleReplyLike({ replyId: reply.id })
+                  }
+                >
+                  {reply.isLiked ? (
+                    <Heart color="#E74C3C" fill="#E74C3C" />
+                  ) : (
+                    <Heart />
+                  )}
+                  <span className="ml-1 text-sm">{reply.likesCount}</span>
+                </Button>
               </div>
             )}
           </form>

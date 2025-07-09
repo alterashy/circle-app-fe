@@ -1,7 +1,7 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/api";
 import {
   createReplySchema,
@@ -17,7 +17,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { ReplyResponseDTO } from "../schemas/reply.dto";
 
-export const PostReplyForm = ({ postId }: { postId: string }) => {
+export const PostReplyForm = ({
+  postId,
+  username,
+}: {
+  postId: string;
+  username: string;
+}) => {
   const {
     user: {
       profile: { fullName, avatarUrl },
@@ -58,6 +64,10 @@ export const PostReplyForm = ({ postId }: { postId: string }) => {
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: [`threads/${postId}`] });
       await queryClient.invalidateQueries({ queryKey: ["threads-user"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["posts-user", username],
+      });
+      await queryClient.invalidateQueries({ queryKey: ["post-detail"] });
       toast.success(data.message);
       console.log(data);
       reset({ content: "" });
@@ -85,7 +95,7 @@ export const PostReplyForm = ({ postId }: { postId: string }) => {
               alt="user-avatar"
             />
           </Avatar>
-          <Textarea
+          <Input
             {...register("content")}
             placeholder="Share your thoughts..."
           />
