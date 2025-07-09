@@ -1,11 +1,20 @@
+import { PostForm } from "@/features/home/components/PostForm";
+import { useAuthStore } from "@/stores/auth.store";
 import { Link, useNavigate } from "@tanstack/react-router";
+import Cookies from "js-cookie";
 import { LogOut, Plus } from "lucide-react";
-import { navigationItems } from "./NavigationItem";
+import { useState } from "react";
+import { getNavigationItems } from "./NavigationItem";
 import { NavigationMenu } from "./NavigationMenu";
 import { Button } from "./ui/button";
-import { useAuthStore } from "@/stores/auth.store";
-import Cookies from "js-cookie";
-import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export const LeftBar = () => {
   const { logout } = useAuthStore();
@@ -17,6 +26,10 @@ export const LeftBar = () => {
   };
 
   const [open, setOpen] = useState(false);
+  const currentUser = useAuthStore((state) => state.user);
+  const navigationItems = getNavigationItems(
+    currentUser?.username ?? "profile"
+  );
 
   return (
     <div className="flex flex-col p-6 h-full">
@@ -42,19 +55,33 @@ export const LeftBar = () => {
             label={item.label}
           />
         ))}
-        <Button
-          variant="default"
-          className="w-fit justify-center gap-2 text-secondary lg:w-full lg:justify-start"
-        >
-          <Plus />
-          <span className="md:hidden lg:block">Create Post</span>
-        </Button>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild className="w-full">
+            <Button
+              variant="default"
+              className="w-fit justify-center gap-2 text-secondary lg:w-full lg:justify-start"
+            >
+              <Plus />
+              <span className="md:hidden lg:block">Create Post</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-lg lg:min-w-1/2">
+            <DialogHeader>
+              <DialogTitle className="mb-4">Create Post</DialogTitle>
+              <DialogDescription className="hidden"></DialogDescription>
+            </DialogHeader>
+            <div className="w-full">
+              <PostForm onCloseDialog={() => setOpen(false)} />
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="pt-4 mt-auto">
         <Button
-          variant="destructive"
-          className="w-fit justify-center gap-2 text-secondary lg:w-full lg:justify-start"
+          variant="outline"
+          className="w-fit justify-center gap-2 lg:w-full lg:justify-start"
           onClick={handleLogout}
         >
           <LogOut />

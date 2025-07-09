@@ -6,7 +6,7 @@ export type NavigationItemType = {
   icon: React.ReactNode;
 };
 
-export const navigationItems: NavigationItemType[] = [
+export const getNavigationItems = (username: string): NavigationItemType[] => [
   {
     label: "Home",
     to: "/",
@@ -24,7 +24,7 @@ export const navigationItems: NavigationItemType[] = [
   },
   {
     label: "Profile",
-    to: "/profile",
+    to: `/profile/${username}`,
     icon: <CircleUserRound />,
   },
 ];

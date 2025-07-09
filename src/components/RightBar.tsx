@@ -1,19 +1,37 @@
 import DumbWaysIcon from "@/assets/icons/DumbWays.png";
-import { ProfileUser } from "@/features/profile/ProfileUser";
+import { useFollowSuggestions } from "@/features/follow/hooks/useFollowSuggestions";
+import { UserCard } from "@/features/profile/components/UserCard";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLocation } from "@tanstack/react-router";
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { SuggestedUserCard } from "./SuggestionCard";
 
 export const RightBar = () => {
   const currentUser = useAuthStore((state) => state.user);
   const { pathname } = useLocation();
 
-  const isOwnProfilePage =
-    pathname === `/profile` || pathname === `/profile/${currentUser?.username}`;
+  const isOwnProfilePage = pathname === `/profile/${currentUser?.username}`;
+
+  const { suggestions, isLoadingSuggestions } = useFollowSuggestions();
 
   return (
     <aside className="flex flex-col gap-4 p-6 h-full">
-      {!isOwnProfilePage && <ProfileUser />}
+      {!isOwnProfilePage && <UserCard />}
+
+      <div className="flex flex-col gap-4 w-full p-4 rounded-md bg-secondary">
+        {isLoadingSuggestions ? (
+          <p className="text-xs text-muted-foreground">
+            Loading suggestions...
+          </p>
+        ) : suggestions.length === 0 ? (
+          <p className="text-xs text-muted-foreground">
+            No suggestions at the moment.
+          </p>
+        ) : (
+          suggestions.map((user) => (
+            <SuggestedUserCard key={user.id} {...user} />
+          ))
+        )}
+      </div>
 
       <footer className="flex flex-col gap-2 w-full p-4 rounded-md bg-secondary text-xs">
         <div className="flex gap-1 items-center flex-wrap">
