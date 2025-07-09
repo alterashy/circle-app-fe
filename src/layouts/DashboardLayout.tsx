@@ -47,7 +47,7 @@ export const DashboardLayout = () => {
           <LeftBar />
         </div>
 
-        <div className="pb-[56px] overflow-y-scroll">
+        <div className="pb-[56px] overflow-y-scroll md:pb-0">
           <Outlet />
         </div>
 
