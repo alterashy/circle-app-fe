@@ -135,4 +135,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .radix-dialog-overlay {
+    @apply backdrop-blur-sm bg-black/30;
+  }
 }
