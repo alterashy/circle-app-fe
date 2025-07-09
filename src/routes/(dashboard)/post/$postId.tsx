@@ -1,3 +1,4 @@
+import { PostDetailPage } from "@/pages/dashboard/PostDetailPage";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(dashboard)/post/$postId")({
@@ -5,5 +6,9 @@ export const Route = createFileRoute("/(dashboard)/post/$postId")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/(dashboard)/post/$postId"!</div>;
+  return (
+    <div>
+      <PostDetailPage />
+    </div>
+  );
 }

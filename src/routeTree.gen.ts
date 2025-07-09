@@ -17,7 +17,6 @@ import { Route as dashboardFollowRouteImport } from './routes/(dashboard)/follow
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as dashboardProfileIndexRouteImport } from './routes/(dashboard)/profile/index'
-import { Route as dashboardPostIndexRouteImport } from './routes/(dashboard)/post/index'
 import { Route as dashboardProfileUsernameRouteImport } from './routes/(dashboard)/profile/$username'
 import { Route as dashboardPostPostIdRouteImport } from './routes/(dashboard)/post/$postId'
 import { Route as authPasswordForgotRouteImport } from './routes/(auth)/password/forgot'
@@ -61,11 +60,6 @@ const dashboardProfileIndexRoute = dashboardProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => dashboardRouteRoute,
 } as any)
-const dashboardPostIndexRoute = dashboardPostIndexRouteImport.update({
-  id: '/post/',
-  path: '/post/',
-  getParentRoute: () => dashboardRouteRoute,
-} as any)
 const dashboardProfileUsernameRoute =
   dashboardProfileUsernameRouteImport.update({
     id: '/profile/$username',
@@ -98,7 +92,6 @@ export interface FileRoutesByFullPath {
   '/password/forgot': typeof authPasswordForgotRoute
   '/post/$postId': typeof dashboardPostPostIdRoute
   '/profile/$username': typeof dashboardProfileUsernameRoute
-  '/post': typeof dashboardPostIndexRoute
   '/profile': typeof dashboardProfileIndexRoute
   '/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
@@ -111,7 +104,6 @@ export interface FileRoutesByTo {
   '/password/forgot': typeof authPasswordForgotRoute
   '/post/$postId': typeof dashboardPostPostIdRoute
   '/profile/$username': typeof dashboardProfileUsernameRoute
-  '/post': typeof dashboardPostIndexRoute
   '/profile': typeof dashboardProfileIndexRoute
   '/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
@@ -127,7 +119,6 @@ export interface FileRoutesById {
   '/(auth)/password/forgot': typeof authPasswordForgotRoute
   '/(dashboard)/post/$postId': typeof dashboardPostPostIdRoute
   '/(dashboard)/profile/$username': typeof dashboardProfileUsernameRoute
-  '/(dashboard)/post/': typeof dashboardPostIndexRoute
   '/(dashboard)/profile/': typeof dashboardProfileIndexRoute
   '/(auth)/password/reset/$tokenId': typeof authPasswordResetTokenIdRoute
 }
@@ -142,7 +133,6 @@ export interface FileRouteTypes {
     | '/password/forgot'
     | '/post/$postId'
     | '/profile/$username'
-    | '/post'
     | '/profile'
     | '/password/reset/$tokenId'
   fileRoutesByTo: FileRoutesByTo
@@ -155,7 +145,6 @@ export interface FileRouteTypes {
     | '/password/forgot'
     | '/post/$postId'
     | '/profile/$username'
-    | '/post'
     | '/profile'
     | '/password/reset/$tokenId'
   id:
@@ -170,7 +159,6 @@ export interface FileRouteTypes {
     | '/(auth)/password/forgot'
     | '/(dashboard)/post/$postId'
     | '/(dashboard)/profile/$username'
-    | '/(dashboard)/post/'
     | '/(dashboard)/profile/'
     | '/(auth)/password/reset/$tokenId'
   fileRoutesById: FileRoutesById
@@ -238,13 +226,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardProfileIndexRouteImport
       parentRoute: typeof dashboardRouteRoute
     }
-    '/(dashboard)/post/': {
-      id: '/(dashboard)/post/'
-      path: '/post'
-      fullPath: '/post'
-      preLoaderRoute: typeof dashboardPostIndexRouteImport
-      parentRoute: typeof dashboardRouteRoute
-    }
     '/(dashboard)/profile/$username': {
       id: '/(dashboard)/profile/$username'
       path: '/profile/$username'
@@ -300,7 +281,6 @@ interface dashboardRouteRouteChildren {
   dashboardIndexRoute: typeof dashboardIndexRoute
   dashboardPostPostIdRoute: typeof dashboardPostPostIdRoute
   dashboardProfileUsernameRoute: typeof dashboardProfileUsernameRoute
-  dashboardPostIndexRoute: typeof dashboardPostIndexRoute
   dashboardProfileIndexRoute: typeof dashboardProfileIndexRoute
 }
 
@@ -310,7 +290,6 @@ const dashboardRouteRouteChildren: dashboardRouteRouteChildren = {
   dashboardIndexRoute: dashboardIndexRoute,
   dashboardPostPostIdRoute: dashboardPostPostIdRoute,
   dashboardProfileUsernameRoute: dashboardProfileUsernameRoute,
-  dashboardPostIndexRoute: dashboardPostIndexRoute,
   dashboardProfileIndexRoute: dashboardProfileIndexRoute,
 }
 
